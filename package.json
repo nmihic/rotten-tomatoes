@@ -1,0 +1,21 @@
+{
+  "name": "rottentomatoes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-playwright": "^1.5.4",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.3"
+  },
+  "scripts": {
+    "format": "yarn prettier . -w",
+    "lint": "eslint --max-warnings=0 '**/*.{js,jsx,ts,tsx}'",
+    "test": "playwright test --headed"
+  }
+}
