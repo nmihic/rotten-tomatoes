@@ -10,7 +10,9 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  globalSetup: require.resolve('./utils/global-setup'),
+  globalSetup: process.env.CI
+    ? undefined
+    : require.resolve('./utils/global-setup'),
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -26,7 +28,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://www.rottentomatoes.com/',
-    storageState: './tests/state.json',
+    storageState: process.env.CI ? undefined : './tests/state.json',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
