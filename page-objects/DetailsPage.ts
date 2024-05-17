@@ -2,16 +2,16 @@ import { Page, Locator, expect } from '@playwright/test';
 
 class DetailsPage {
   page: Page;
-  movieTitle: Locator;
+  movieTitleHeader: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.movieTitle = page.locator("[data-qa='score-panel-title']");
+    this.movieTitleHeader = page.locator("[slot='titleIntro']");
   }
 
   public assert = {
-    titleIs: async (movieTitle: string) => {
-      await expect(this.movieTitle).toHaveText(movieTitle);
+    titleIs: async (movieTitleValue: string) => {
+      await expect(this.movieTitleHeader).toHaveText(movieTitleValue);
     },
   };
 }
