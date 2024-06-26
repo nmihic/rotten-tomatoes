@@ -1,13 +1,19 @@
 import { test as base, Page } from '@playwright/test';
 
 import Navigation from '../page-objects/Navigation';
-import DetailsPage from '../page-objects/DetailsPage';
+import MovieDetailsPage from '../page-objects/MovieDetailsPage';
+import CelebrityDetailsPage from '../page-objects/CelebrityDetailsPage';
+import List from '../page-objects/List';
 
 export const test = base.extend<{
   page: Page;
   navigation: Navigation;
-  detailsPage: DetailsPage;
+  movieDetailsPage: MovieDetailsPage;
+  celebrityDetailsPage: CelebrityDetailsPage;
+  list: List;
 }>({
   navigation: ({ page }, use) => use(new Navigation(page)),
-  detailsPage: ({ page }, use) => use(new DetailsPage(page)),
+  movieDetailsPage: ({ page }, use) => use(new MovieDetailsPage(page)),
+  celebrityDetailsPage: ({ page }, use) => use(new CelebrityDetailsPage(page)),
+  list: ({ page }, use) => use(new List(page)),
 });
