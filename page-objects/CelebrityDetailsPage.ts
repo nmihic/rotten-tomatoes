@@ -8,12 +8,15 @@ class CelebrityDetailsPage {
   constructor(page: Page) {
     this.page = page;
     this.celebrityTitle = page.locator("[data-qa='celebrity-bio-header']");
-    this.highestRatedMovie = page.locator('[data-qa="dynamic-poster-list"]').locator('[class="tile-first visible"]');
-
+    this.highestRatedMovie = page
+      .locator('[data-qa="dynamic-poster-list"]')
+      .locator('[class="tile-first visible"]');
   }
 
   public async openHighestRatedMovie() {
-    const highestRatedMovieLink = await this.highestRatedMovie.getByRole('link').getAttribute('href');
+    const highestRatedMovieLink = await this.highestRatedMovie
+      .getByRole('link')
+      .getAttribute('href');
     await this.highestRatedMovie.locator('[slot="caption"]').click();
     return highestRatedMovieLink;
   }

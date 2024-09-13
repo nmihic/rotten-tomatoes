@@ -15,10 +15,10 @@ class MovieDetailsPage {
     },
     urlIs: async (urlValue: string | null) => {
       if (urlValue === null) {
-        throw new Error('No URL found')
+        throw new Error('No URL found');
       }
       await expect(this.page).toHaveURL(urlValue);
-    }
+    },
   };
 }
 
