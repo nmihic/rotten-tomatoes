@@ -3,10 +3,21 @@ import { Page, Locator, expect } from '@playwright/test';
 class MovieDetailsPage {
   page: Page;
   movieTitle: Locator;
+  castAndCrewSection: Locator;
+  castAndCrewName: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.movieTitle = page.locator("[slot='titleIntro']");
+    this.castAndCrewSection = page.locator("[data-qa='person-item']");
+    this.castAndCrewName = page.locator("[data-qa='person-name']");
+  }
+
+  public async openCastAndCrew() {
+    const castAndCrewNameValue = this.castAndCrewName.first().textContent();
+    await this.castAndCrewSection.first().click();
+    await this.page.waitForLoadState('domcontentloaded');
+    return castAndCrewNameValue;
   }
 
   public assert = {
