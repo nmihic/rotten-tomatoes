@@ -24,4 +24,3 @@ Open the trace by navigating to [https://trace.playwright.dev](https://trace.pla
 ## Codegen
 
 By running `yarn codegen $URL` where you enter a valid URL, Playwright will launch a browser in which you get clues for selectors and suggested test assertions as you navigate around the page behind the URL.
-

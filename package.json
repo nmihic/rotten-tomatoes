@@ -16,7 +16,8 @@
   "scripts": {
     "format": "yarn prettier . -w",
     "lint": "eslint --max-warnings=0 '**/*.{js,jsx,ts,tsx}'",
-    "test": "playwright test --headed",
+    "test": "playwright test",
+    "headed": "playwright test --headed",
     "codegen": "playwright codegen"
   }
 }
