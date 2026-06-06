@@ -12,10 +12,10 @@ class Navigation {
     this.page = page;
     this.searchBar = page.locator("[slot='search-input']");
     this.moviesTvSearchResults = page
-      .locator("[slot='mediaResults']")
+      .locator("[slot='media-results']")
       .filter({ hasText: movieTitle });
     this.celebritySearchResult = page
-      .locator("[slot='celebrityResults']")
+      .locator("[slot='celebrity-results']")
       .filter({ hasText: actor });
     this.tvShowsNavigation = page.locator('[data-qa="masthead:tv"]');
   }
@@ -27,8 +27,8 @@ class Navigation {
   }
 
   public async openMovieTvSearchResult() {
-    await this.moviesTvSearchResults.click();
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.moviesTvSearchResults.getByRole('link', { name: movieTitle }).first().click({ force: true });
+    await this.page.waitForLoadState('load');
   }
 
   public async openCelebritySearchResult() {
