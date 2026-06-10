@@ -20,8 +20,20 @@ class Navigation {
     this.tvShowsNavigation = page.locator('[data-qa="masthead:tv"]');
   }
 
+  private async dismissAppModalIfVisible() {
+    const appModal = this.page.locator('rt-app-modal-content');
+    try {
+      await appModal.waitFor({ state: 'visible', timeout: 3000 });
+      await appModal.locator('[data-rtappmanager="btnContinue:click"]').click();
+      await appModal.waitFor({ state: 'hidden' });
+    } catch {
+      // modal not present
+    }
+  }
+
   public async search(searchInput: string) {
     await this.page.goto('', { waitUntil: 'domcontentloaded' }); //baseUrl
+    await this.dismissAppModalIfVisible();
     await this.searchBar.click();
     await this.searchBar.fill(searchInput);
   }
@@ -38,6 +50,7 @@ class Navigation {
 
   public async openTvShowsList() {
     await this.page.goto('', { waitUntil: 'domcontentloaded' }); //baseUrl
+    await this.dismissAppModalIfVisible();
     await this.tvShowsNavigation.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
