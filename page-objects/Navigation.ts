@@ -24,7 +24,9 @@ class Navigation {
     const appModal = this.page.locator('rt-app-modal-content');
     try {
       await appModal.waitFor({ state: 'visible', timeout: 3000 });
-      await appModal.locator('[data-rtappmanager="btnContinue:click"]').click();
+      await appModal
+        .locator('[data-rtappmanager="btnClose:click"]')
+        .click({ timeout: 5000 });
       await appModal.waitFor({ state: 'hidden' });
     } catch {
       // modal not present
