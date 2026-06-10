@@ -5,3 +5,5 @@ node_modules/
 /playwright/.cache/
 /tests/state.json
 .playwright-mcp/
+.claude/settings.json
+.claude/settings.local.json

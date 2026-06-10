@@ -8,13 +8,13 @@ class MovieDetailsPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.movieTitle = page.locator("[slot='titleIntro']");
+    this.movieTitle = page.locator('h1#media-hero-label');
     this.castAndCrewSection = page.locator("[data-qa='person-item']");
     this.castAndCrewName = page.locator("[data-qa='person-name']");
   }
 
   public async openCastAndCrew() {
-    const castAndCrewNameValue = this.castAndCrewName.first().textContent();
+    const castAndCrewNameValue = await this.castAndCrewName.first().textContent();
     await this.castAndCrewSection.first().click();
     await this.page.waitForLoadState('domcontentloaded');
     return castAndCrewNameValue;

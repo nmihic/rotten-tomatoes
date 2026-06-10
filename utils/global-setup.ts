@@ -12,6 +12,18 @@ async function cookiesSetup(config: FullConfig) {
 
   await page.goto(baseURL);
   await page.locator("[id='onetrust-accept-btn-handler']").click();
+
+  const appModal = page.locator('rt-app-modal-content');
+  try {
+    await appModal.waitFor({ state: 'visible', timeout: 5000 });
+    await appModal
+      .locator('[data-rtappmanager="btnClose:click"]')
+      .click({ timeout: 5000 });
+    await appModal.waitFor({ state: 'hidden' });
+  } catch {
+    // modal not present
+  }
+
   await page.context().storageState({ path: storageState as string });
   await page.close();
 }

@@ -12,23 +12,37 @@ class Navigation {
     this.page = page;
     this.searchBar = page.locator("[slot='search-input']");
     this.moviesTvSearchResults = page
-      .locator("[slot='mediaResults']")
+      .locator("[slot='media-results']")
       .filter({ hasText: movieTitle });
     this.celebritySearchResult = page
-      .locator("[slot='celebrityResults']")
+      .locator("[slot='celebrity-results']")
       .filter({ hasText: actor });
     this.tvShowsNavigation = page.locator('[data-qa="masthead:tv"]');
   }
 
+  private async dismissAppModalIfVisible() {
+    const appModal = this.page.locator('rt-app-modal-content');
+    try {
+      await appModal.waitFor({ state: 'visible', timeout: 3000 });
+      await appModal
+        .locator('[data-rtappmanager="btnClose:click"]')
+        .click({ timeout: 5000 });
+      await appModal.waitFor({ state: 'hidden' });
+    } catch {
+      // modal not present
+    }
+  }
+
   public async search(searchInput: string) {
     await this.page.goto('', { waitUntil: 'domcontentloaded' }); //baseUrl
+    await this.dismissAppModalIfVisible();
     await this.searchBar.click();
     await this.searchBar.fill(searchInput);
   }
 
   public async openMovieTvSearchResult() {
-    await this.moviesTvSearchResults.click();
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.moviesTvSearchResults.getByRole('link', { name: movieTitle }).first().click({ force: true });
+    await this.page.waitForLoadState('load');
   }
 
   public async openCelebritySearchResult() {
@@ -38,6 +52,7 @@ class Navigation {
 
   public async openTvShowsList() {
     await this.page.goto('', { waitUntil: 'domcontentloaded' }); //baseUrl
+    await this.dismissAppModalIfVisible();
     await this.tvShowsNavigation.click();
     await this.page.waitForLoadState('domcontentloaded');
   }

@@ -15,9 +15,9 @@ class CelebrityDetailsPage {
 
   public async openHighestRatedMovie() {
     const highestRatedMovieLink = await this.highestRatedMovie
-      .getByRole('link')
+      .locator('a[slot="meta-data"]')
       .getAttribute('href');
-    await this.highestRatedMovie.locator('[slot="caption"]').click();
+    await this.highestRatedMovie.locator('a[slot="meta-data"]').click();
     return highestRatedMovieLink;
   }
 
