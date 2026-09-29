@@ -2,6 +2,32 @@
 
 These end-to-end tests serve as smoke tests for the entire application.
 
+## Why this project
+
+I built this as a personal sandbox to practise test automation and to show how I approach it. Some patterns come from my work on commercial projects; others I researched and tried out here for the first time. The goal isn't to fully test Rotten Tomatoes, but to have a small, real-world project where I can experiment and learn.
+
+## Decisions and why
+
+- **Rotten Tomatoes as the target.** It's a real production site with stable, well-structured locators. On most projects good locators are something the team adds deliberately, so I chose a site where I could focus on test design instead of fighting poor selectors.
+- **Playwright + TypeScript.** It's the stack I used at work. I've also worked with Cypress, but I prefer Playwright — the API, tooling and community — so I kept building on it.
+- **Page Object Model.** Carried over from work: page-specific locators and actions live in `page-objects/`, and tests only describe behaviour.
+- **Custom fixtures** (`utils/fixtures.ts`). Something I explored on my own and the biggest discovery of the project: page objects are injected into tests as fixtures, so tests don't need any setup boilerplate.
+- **Cookie consent handled once, in global setup.** `utils/global-setup.ts` accepts the consent banner once and saves the browser state to `tests/state.json`, which every test reuses. That's faster and simpler than clicking the banner in each test.
+- **Chromium only.** A deliberate trade-off for simplicity. Chrome is the most widely used browser, and the goal here is learning, not full cross-browser coverage. Firefox and WebKit are ready to enable in `playwright.config.ts`.
+- **CI with GitHub Actions**, set up by me: tests run on every push and pull request, and the HTML report is uploaded as an artifact.
+
+## Lessons from maintaining it against a live site
+
+Testing a site you don't control means it changes under you:
+
+- **Locator drift.** Rotten Tomatoes changed its markup over time, so I had to update locators to keep tests stable.
+- **An app promo modal blocking clicks.** A modal appeared asynchronously after page load and intercepted clicks, and its dismissed state wasn't persisted in the saved storage state, so it could come back on every navigation. It also had two dismiss buttons, one of which wasn't visible in CI. With the Trace Viewer (which I use for every failure) I tracked it down and fixed it: the modal is now dismissed via the visible close button, both in global setup and in `Navigation`, with a short timeout so it doesn't block tests when it isn't shown.
+
+## What I'd add next
+
+- **API tests**, probably first.
+- A fuller **sanity suite** covering the flows I actually use as a Rotten Tomatoes user.
+
 ## Development Setup
 
 Set up test suite: `yarn install`.
